@@ -1,0 +1,15 @@
+#!name=01 Block Tools
+#!desc=部分禁用协议的能力
+
+[Rule]
+# > 部分服务会校验请求的来源 IP，在开启 hybrid 时有可能因为请求IP变化导致无法正常登录和使用（如招商银行），可使用 NO-HYBRID 对特定请求单独关闭 All Hybrid
+# DOMAIN-SUFFIX,cmbchina.com,NO-HYBRID
+
+# > Block HTTP3/QUIC
+AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
+# > 屏蔽 YouTube 的 UDP
+# AND,((RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/YouTube/YouTube.list),(PROTOCOL,UDP)),REJECT-NO-DROP
+# AND,((PROTOCOL,UDP),(OR,((DOMAIN-SUFFIX,googlevideo.com),(DOMAIN-SUFFIX,gvt1.com),(DOMAIN-SUFFIX,cdninstagram.com)))),REJECT-NO-DROP
+# > Block P2P
+# AND,((PROTOCOL,UDP),(OR,((DOMAIN-KEYWORD,bilibili),(DOMAIN-KEYWORD,biliapi),(DOMAIN-KEYWORD,mcdn),(DOMAIN-KEYWORD,douyu)))),REJECT-NO-DROP
+# AND,((PROTOCOL,TCP),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,douyu)))),REJECT-NO-DROP
